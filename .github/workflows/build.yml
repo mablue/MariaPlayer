@@ -50,25 +50,69 @@ jobs:
             base64 -d debug.keystore.base64 > debug.keystore
           elif [ ! -f "debug.keystore" ]; then
             echo "Generating standard debug.keystore using keytool"
-            keytool -genkeypair -v -keystore debug.keystore -alias androiddebugkey -keyalg RSA -keysize 2048 -validity 10000 -storepass android -keypass android -dname "CN=Android Debug,O=Android,C=US"
+            keytool -genkeypair -v -keystore debug.keystore -alias androiddebugkey -keyalg RSA -keysize 2048 -validity 10000 -storepass android -keypass android -dname "CN=Android Debug,O=Android,[...]"
           fi
           cp debug.keystore $HOME/.android/debug.keystore || true
 
           # 2. Guarantee my-upload-key.jks exists with alias upload
+          # Try to decode provided secret first. If no secret, but a checked-in keystore
+          # exists, make sure we still set STORE_PASSWORD/KEY_PASSWORD (defaults to 'android')
           if [ -n "${{ secrets.KEYSTORE_BASE64 }}" ]; then
             echo "${{ secrets.KEYSTORE_BASE64 }}" | base64 -d > my-upload-key.jks
             echo "KEYSTORE_PATH=$PWD/my-upload-key.jks" >> $GITHUB_ENV
-            echo "STORE_PASSWORD=${{ secrets.KEYSTORE_PASSWORD }}" >> $GITHUB_ENV
-            echo "KEY_PASSWORD=${{ secrets.KEY_PASSWORD }}" >> $GITHUB_ENV
+            if [ -n "${{ secrets.KEYSTORE_PASSWORD }}" ]; then
+              echo "STORE_PASSWORD=${{ secrets.KEYSTORE_PASSWORD }}" >> $GITHUB_ENV
+            else
+              echo "STORE_PASSWORD=android" >> $GITHUB_ENV
+            fi
+            if [ -n "${{ secrets.KEY_PASSWORD }}" ]; then
+              echo "KEY_PASSWORD=${{ secrets.KEY_PASSWORD }}" >> $GITHUB_ENV
+            else
+              # default key password to the store password
+              if [ -n "${{ secrets.KEYSTORE_PASSWORD }}" ]; then
+                echo "KEY_PASSWORD=${{ secrets.KEYSTORE_PASSWORD }}" >> $GITHUB_ENV
+              else
+                echo "KEY_PASSWORD=android" >> $GITHUB_ENV
+              fi
+            fi
             if [ -n "${{ secrets.KEY_ALIAS }}" ]; then
               echo "KEY_ALIAS=${{ secrets.KEY_ALIAS }}" >> $GITHUB_ENV
             else
-              DETECTED_ALIAS=$(keytool -list -keystore my-upload-key.jks -storepass "${{ secrets.KEYSTORE_PASSWORD }}" | awk -F',' '/PrivateKeyEntry/{print $1; exit}')
+              STORE_PASS="${{ secrets.KEYSTORE_PASSWORD }}"
+              if [ -z "$STORE_PASS" ]; then STORE_PASS=android; fi
+              DETECTED_ALIAS=$(keytool -list -keystore my-upload-key.jks -storepass "$STORE_PASS" 2>/dev/null | awk -F',' '/PrivateKeyEntry/{print $1; exit}')
+              echo "KEY_ALIAS=${DETECTED_ALIAS:-upload}" >> $GITHUB_ENV
+            fi
+          elif [ -f "my-upload-key.jks" ]; then
+            # Keystore is present in the repo. Ensure we export sensible defaults
+            echo "KEYSTORE_PATH=$PWD/my-upload-key.jks" >> $GITHUB_ENV
+            if [ -n "${{ secrets.KEYSTORE_PASSWORD }}" ]; then
+              echo "STORE_PASSWORD=${{ secrets.KEYSTORE_PASSWORD }}" >> $GITHUB_ENV
+            else
+              echo "STORE_PASSWORD=android" >> $GITHUB_ENV
+            fi
+            if [ -n "${{ secrets.KEY_PASSWORD }}" ]; then
+              echo "KEY_PASSWORD=${{ secrets.KEY_PASSWORD }}" >> $GITHUB_ENV
+            else
+              # default key password to the store password value we chose above
+              if [ -n "${{ secrets.KEYSTORE_PASSWORD }}" ]; then
+                echo "KEY_PASSWORD=${{ secrets.KEYSTORE_PASSWORD }}" >> $GITHUB_ENV
+              else
+                echo "KEY_PASSWORD=android" >> $GITHUB_ENV
+              fi
+            fi
+            if [ -n "${{ secrets.KEY_ALIAS }}" ]; then
+              echo "KEY_ALIAS=${{ secrets.KEY_ALIAS }}" >> $GITHUB_ENV
+            else
+              # Attempt to detect the alias using the chosen store password
+              STORE_PASS="${{ secrets.KEYSTORE_PASSWORD }}"
+              if [ -z "$STORE_PASS" ]; then STORE_PASS=android; fi
+              DETECTED_ALIAS=$(keytool -list -keystore my-upload-key.jks -storepass "$STORE_PASS" 2>/dev/null | awk -F',' '/PrivateKeyEntry/{print $1; exit}')
               echo "KEY_ALIAS=${DETECTED_ALIAS:-upload}" >> $GITHUB_ENV
             fi
           elif [ ! -f "my-upload-key.jks" ]; then
             echo "Generating fallback upload keystore with alias 'upload'"
-            keytool -genkeypair -v -keystore my-upload-key.jks -alias upload -keyalg RSA -keysize 2048 -validity 10000 -storepass android -keypass android -dname "CN=MariaPlayer, OU=Android, O=MasoudSoft, L=Tehran, ST=Tehran, C=IR"
+            keytool -genkeypair -v -keystore my-upload-key.jks -alias upload -keyalg RSA -keysize 2048 -validity 10000 -storepass android -keypass android -dname "CN=MariaPlayer, OU=Android, O=Mas[...]"
             echo "KEYSTORE_PATH=$PWD/my-upload-key.jks" >> $GITHUB_ENV
             echo "STORE_PASSWORD=android" >> $GITHUB_ENV
             echo "KEY_PASSWORD=android" >> $GITHUB_ENV
@@ -77,7 +121,7 @@ jobs:
 
           # 3. Guarantee google-services.json exists
           if [ ! -f "app/google-services.json" ]; then
-            echo '{"project_info":{"project_number":"123","project_id":"mariaplayer"},"client":[{"client_info":{"mobilesdk_app_id":"1:123:android:123","android_client_info":{"package_name":"ir.masoudsoft.mariaplayer"}},"oauth_client":[],"api_key":[{"current_key":"dummy"}],"services":{}}],"configuration_version":"1"}' > app/google-services.json
+            echo '{"project_info":{"project_number":"123","project_id":"mariaplayer"},"client":[{"client_info":{"mobilesdk_app_id":"1:123:android:123","android_client_info":{"package_name":"ir.mas[...]}}]}' > app/google-services.json
           fi
 
       - name: Grant execute permission for gradlew
@@ -125,16 +169,16 @@ jobs:
           if [ -f "debug.keystore.base64" ]; then
             base64 -d debug.keystore.base64 > debug.keystore
           elif [ ! -f "debug.keystore" ]; then
-            keytool -genkeypair -v -keystore debug.keystore -alias androiddebugkey -keyalg RSA -keysize 2048 -validity 10000 -storepass android -keypass android -dname "CN=Android Debug,O=Android,C=US"
+            keytool -genkeypair -v -keystore debug.keystore -alias androiddebugkey -keyalg RSA -keysize 2048 -validity 10000 -storepass android -keypass android -dname "CN=Android Debug,O=Android[...]"
           fi
           cp debug.keystore $HOME/.android/debug.keystore || true
 
           if [ ! -f "my-upload-key.jks" ]; then
-            keytool -genkeypair -v -keystore my-upload-key.jks -alias upload -keyalg RSA -keysize 2048 -validity 10000 -storepass android -keypass android -dname "CN=MariaPlayer, OU=Android, O=MasoudSoft, L=Tehran, ST=Tehran, C=IR"
+            keytool -genkeypair -v -keystore my-upload-key.jks -alias upload -keyalg RSA -keysize 2048 -validity 10000 -storepass android -keypass android -dname "CN=MariaPlayer, OU=Android, O=Ma[...]"
           fi
 
           if [ ! -f "app/google-services.json" ]; then
-            echo '{"project_info":{"project_number":"123","project_id":"mariaplayer"},"client":[{"client_info":{"mobilesdk_app_id":"1:123:android:123","android_client_info":{"package_name":"ir.masoudsoft.mariaplayer"}},"oauth_client":[],"api_key":[{"current_key":"dummy"}],"services":{}}],"configuration_version":"1"}' > app/google-services.json
+            echo '{"project_info":{"project_number":"123","project_id":"mariaplayer"},"client":[{"client_info":{"mobilesdk_app_id":"1:123:android:123","android_client_info":{"package_name":"ir.ma[...]}}]}' > app/google-services.json
           fi
 
       - name: Grant execute permission for gradlew
