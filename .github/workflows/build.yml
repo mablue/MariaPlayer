@@ -34,24 +34,27 @@ jobs:
           fetch-depth: 0
 
       - name: Set up JDK 21
-        uses: actions/setup-java@v4
+        uses: actions/setup-java@v5
         with:
           distribution: 'temurin'
           java-version: '21'
           cache: 'gradle'
 
-      - name: Setup Keystores (Single Source of Truth)
+      - name: Setup Keystores & Configuration (Single Source of Truth)
         id: keystore-setup
         run: |
           mkdir -p $HOME/.android
 
-          # 1. Prepare debug keystore
+          # 1. Guarantee debug.keystore exists in rootDir and ~/.android
           if [ -f "debug.keystore.base64" ]; then
             base64 -d debug.keystore.base64 > debug.keystore
-            cp debug.keystore $HOME/.android/debug.keystore || true
+          elif [ ! -f "debug.keystore" ]; then
+            echo "Generating standard debug.keystore using keytool"
+            keytool -genkeypair -v -keystore debug.keystore -alias androiddebugkey -keyalg RSA -keysize 2048 -validity 10000 -storepass android -keypass android -dname "CN=Android Debug,O=Android,C=US"
           fi
+          cp debug.keystore $HOME/.android/debug.keystore || true
 
-          # 2. Prepare upload/release keystore
+          # 2. Guarantee my-upload-key.jks exists with alias upload
           if [ -n "${{ secrets.KEYSTORE_BASE64 }}" ]; then
             echo "${{ secrets.KEYSTORE_BASE64 }}" | base64 -d > my-upload-key.jks
             echo "KEYSTORE_PATH=$PWD/my-upload-key.jks" >> $GITHUB_ENV
@@ -63,13 +66,18 @@ jobs:
               DETECTED_ALIAS=$(keytool -list -keystore my-upload-key.jks -storepass "${{ secrets.KEYSTORE_PASSWORD }}" | awk -F',' '/PrivateKeyEntry/{print $1; exit}')
               echo "KEY_ALIAS=${DETECTED_ALIAS:-upload}" >> $GITHUB_ENV
             fi
-          else
+          elif [ ! -f "my-upload-key.jks" ]; then
             echo "Generating fallback upload keystore with alias 'upload'"
             keytool -genkeypair -v -keystore my-upload-key.jks -alias upload -keyalg RSA -keysize 2048 -validity 10000 -storepass android -keypass android -dname "CN=MariaPlayer, OU=Android, O=MasoudSoft, L=Tehran, ST=Tehran, C=IR"
             echo "KEYSTORE_PATH=$PWD/my-upload-key.jks" >> $GITHUB_ENV
             echo "STORE_PASSWORD=android" >> $GITHUB_ENV
             echo "KEY_PASSWORD=android" >> $GITHUB_ENV
             echo "KEY_ALIAS=upload" >> $GITHUB_ENV
+          fi
+
+          # 3. Guarantee google-services.json exists
+          if [ ! -f "app/google-services.json" ]; then
+            echo '{"project_info":{"project_number":"123","project_id":"mariaplayer"},"client":[{"client_info":{"mobilesdk_app_id":"1:123:android:123","android_client_info":{"package_name":"ir.masoudsoft.mariaplayer"}},"oauth_client":[],"api_key":[{"current_key":"dummy"}],"services":{}}],"configuration_version":"1"}' > app/google-services.json
           fi
 
       - name: Grant execute permission for gradlew
@@ -105,18 +113,28 @@ jobs:
         uses: actions/checkout@v4
 
       - name: Set up JDK 21
-        uses: actions/setup-java@v4
+        uses: actions/setup-java@v5
         with:
           distribution: 'temurin'
           java-version: '21'
           cache: 'gradle'
 
-      - name: Prepare debug keystore for unit tests
+      - name: Prepare keystores and config for unit tests
         run: |
+          mkdir -p $HOME/.android
           if [ -f "debug.keystore.base64" ]; then
             base64 -d debug.keystore.base64 > debug.keystore
-            mkdir -p $HOME/.android
-            cp debug.keystore $HOME/.android/debug.keystore || true
+          elif [ ! -f "debug.keystore" ]; then
+            keytool -genkeypair -v -keystore debug.keystore -alias androiddebugkey -keyalg RSA -keysize 2048 -validity 10000 -storepass android -keypass android -dname "CN=Android Debug,O=Android,C=US"
+          fi
+          cp debug.keystore $HOME/.android/debug.keystore || true
+
+          if [ ! -f "my-upload-key.jks" ]; then
+            keytool -genkeypair -v -keystore my-upload-key.jks -alias upload -keyalg RSA -keysize 2048 -validity 10000 -storepass android -keypass android -dname "CN=MariaPlayer, OU=Android, O=MasoudSoft, L=Tehran, ST=Tehran, C=IR"
+          fi
+
+          if [ ! -f "app/google-services.json" ]; then
+            echo '{"project_info":{"project_number":"123","project_id":"mariaplayer"},"client":[{"client_info":{"mobilesdk_app_id":"1:123:android:123","android_client_info":{"package_name":"ir.masoudsoft.mariaplayer"}},"oauth_client":[],"api_key":[{"current_key":"dummy"}],"services":{}}],"configuration_version":"1"}' > app/google-services.json
           fi
 
       - name: Grant execute permission for gradlew
