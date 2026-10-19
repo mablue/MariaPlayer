@@ -50,7 +50,7 @@ jobs:
             base64 -d debug.keystore.base64 > debug.keystore
           elif [ ! -f "debug.keystore" ]; then
             echo "Generating standard debug.keystore using keytool"
-            keytool -genkeypair -v -keystore debug.keystore -alias androiddebugkey -keyalg RSA -keysize 2048 -validity 10000 -storepass android -keypass android -dname "CN=Android Debug,O=Android,[...]"
+            keytool -genkeypair -v -keystore debug.keystore -alias androiddebugkey -keyalg RSA -keysize 2048 -validity 10000 -storepass android -keypass android -dname "CN=Android Debug,O=Android,C=US"
           fi
           cp debug.keystore $HOME/.android/debug.keystore || true
 
@@ -112,7 +112,7 @@ jobs:
             fi
           elif [ ! -f "my-upload-key.jks" ]; then
             echo "Generating fallback upload keystore with alias 'upload'"
-            keytool -genkeypair -v -keystore my-upload-key.jks -alias upload -keyalg RSA -keysize 2048 -validity 10000 -storepass android -keypass android -dname "CN=MariaPlayer, OU=Android, O=Mas[...]"
+            keytool -genkeypair -v -keystore my-upload-key.jks -alias upload -keyalg RSA -keysize 2048 -validity 10000 -storepass android -keypass android -dname "CN=MariaPlayer,OU=Android,O=MariaPlayer,C=US"
             echo "KEYSTORE_PATH=$PWD/my-upload-key.jks" >> $GITHUB_ENV
             echo "STORE_PASSWORD=android" >> $GITHUB_ENV
             echo "KEY_PASSWORD=android" >> $GITHUB_ENV
@@ -121,7 +121,7 @@ jobs:
 
           # 3. Guarantee google-services.json exists
           if [ ! -f "app/google-services.json" ]; then
-            echo '{"project_info":{"project_number":"123","project_id":"mariaplayer"},"client":[{"client_info":{"mobilesdk_app_id":"1:123:android:123","android_client_info":{"package_name":"ir.mas[...]}}]}' > app/google-services.json
+            echo '{"project_info":{"project_number":"123","project_id":"mariaplayer"},"client":[{"client_info":{"mobilesdk_app_id":"1:123:android:123","android_client_info":{"package_name":"ir.ma[...]"}}]}'
           fi
 
       - name: Grant execute permission for gradlew
@@ -169,16 +169,16 @@ jobs:
           if [ -f "debug.keystore.base64" ]; then
             base64 -d debug.keystore.base64 > debug.keystore
           elif [ ! -f "debug.keystore" ]; then
-            keytool -genkeypair -v -keystore debug.keystore -alias androiddebugkey -keyalg RSA -keysize 2048 -validity 10000 -storepass android -keypass android -dname "CN=Android Debug,O=Android[...]"
+            keytool -genkeypair -v -keystore debug.keystore -alias androiddebugkey -keyalg RSA -keysize 2048 -validity 10000 -storepass android -keypass android -dname "CN=Android Debug,O=Android,C=US"
           fi
           cp debug.keystore $HOME/.android/debug.keystore || true
 
           if [ ! -f "my-upload-key.jks" ]; then
-            keytool -genkeypair -v -keystore my-upload-key.jks -alias upload -keyalg RSA -keysize 2048 -validity 10000 -storepass android -keypass android -dname "CN=MariaPlayer, OU=Android, O=Ma[...]"
+            keytool -genkeypair -v -keystore my-upload-key.jks -alias upload -keyalg RSA -keysize 2048 -validity 10000 -storepass android -keypass android -dname "CN=MariaPlayer,OU=Android,O=MariaPlayer,C=US"
           fi
 
           if [ ! -f "app/google-services.json" ]; then
-            echo '{"project_info":{"project_number":"123","project_id":"mariaplayer"},"client":[{"client_info":{"mobilesdk_app_id":"1:123:android:123","android_client_info":{"package_name":"ir.ma[...]}}]}' > app/google-services.json
+            echo '{"project_info":{"project_number":"123","project_id":"mariaplayer"},"client":[{"client_info":{"mobilesdk_app_id":"1:123:android:123","android_client_info":{"package_name":"ir.ma[...]"}}]}'
           fi
 
       - name: Grant execute permission for gradlew
