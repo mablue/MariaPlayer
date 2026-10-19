@@ -1,0 +1,82 @@
+<resources>
+    <string name="app_name">MariaPlayer</string>
+    <string name="tab_harmonic_mixing">Harmonic Mixing</string>
+    <string name="hbd_maryam_title">Happy Birthday Maryam! 🎂🌸</string>
+    <string name="hbd_maryam_subtitle">Wishing you a harmonious year filled with love, laughter, and beautiful melodies! (16 November)</string>
+    <string name="hbd_button_celebrate">Celebrate Maryam’s Day 🎉</string>
+    <string name="flower_concept_name">Tuberose Flower Edition (گل مریم)</string>
+    <string name="tab_music">Music</string>
+    <string name="tab_podcasts">Podcasts</string>
+    <string name="tab_audiobooks">Audiobooks</string>
+    <string name="tab_folders">Folders</string>
+
+    <string name="play">Play</string>
+    <string name="pause">Pause</string>
+    <string name="skip_next">Next</string>
+    <string name="skip_previous">Previous</string>
+    <string name="forward_10">Forward 10s</string>
+    <string name="replay_10">Rewind 10s</string>
+    <string name="shuffle">Shuffle</string>
+    <string name="repeat">Repeat</string>
+    <string name="playback_speed">Playback Speed</string>
+    <string name="sleep_timer">Sleep Timer</string>
+    <string name="lyrics">Lyrics</string>
+    <string name="car_mode">Car Mode</string>
+    <string name="share">Share</string>
+    <string name="edit_tags">Edit Tags</string>
+    <string name="settings">Settings</string>
+    <string name="search_hint">Search songs, artists, podcasts…</string>
+    <string name="multi_select">Multi-Select</string>
+    <string name="create_playlist">Create Playlist</string>
+    <string name="add_to_playlist">Add to Playlist</string>
+
+    <string name="sort_by">Sort By</string>
+    <string name="sort_title">Title</string>
+    <string name="sort_artist">Artist</string>
+    <string name="sort_duration">Duration</string>
+    <string name="sort_date">Date Added</string>
+    <string name="sort_size">File Size</string>
+    <string name="sort_smart">Smart Ranking</string>
+    <string name="sort_quality">Bitrate / Quality</string>
+
+    <string name="smart_scoring_title">Algorithmic Intelligence</string>
+    <string name="why_ranking_tooltip">Why ranked here: Combined recency, energy match, Camelot harmonic flow &amp; replay habit</string>
+    <string name="remember_these">Remember these?</string>
+    <string name="on_this_day">On this day</string>
+    <string name="hidden_gems">Hidden gems</string>
+    <string name="weekly_replay">Weekly Replay</string>
+    <string name="mood_journal">Mood Journal</string>
+    <string name="atmosphere_title">Atmospheric Soundscape</string>
+
+    <string name="feature_loudness_norm">Loudness Normalization</string>
+    <string name="feature_loudness_norm_desc">Keeps volume consistent across tracks and episodes.</string>
+    <string name="feature_drc">Dynamic Range Compression</string>
+    <string name="feature_drc_desc">Makes quiet parts easier to hear in noisy places.</string>
+    <string name="feature_mono_guard">Mono &amp; Hearing Guard</string>
+    <string name="feature_mono_guard_desc">Same audio in both ears and protects against sudden loud audio.</string>
+    <string name="feature_vinyl">Vinyl / Cassette Mode</string>
+    <string name="feature_vinyl_desc">Plays your music with a warm analog feel.</string>
+    <string name="feature_room_reverb">Spatial Room Reverb</string>
+    <string name="feature_room_reverb_desc">Adds a natural sense of acoustic space to your music.</string>
+    <string name="feature_vocal_boost">Voice Clarity &amp; Vocal Boost</string>
+    <string name="feature_vocal_boost_desc">Makes voices easier to hear in noisy environments.</string>
+    <string name="feature_sleep_fade">Sleep Fade</string>
+    <string name="feature_sleep_fade_desc">Gradually fades music so you fall asleep without a startle.</string>
+    <string name="feature_smart_rewind">Smart Rewind after Pause</string>
+    <string name="feature_smart_rewind_desc">Picks up 3 seconds earlier when resuming after a long pause.</string>
+    <string name="feature_bluetooth_autoplay">Bluetooth Auto-Play</string>
+    <string name="feature_bluetooth_autoplay_desc">Automatically resumes playback when a trusted Bluetooth device connects.</string>
+    <string name="feature_liquid_glass">Liquid Glass UI</string>
+    <string name="feature_liquid_glass_desc">Glassmorphic blur effects and dynamic color backdrops.</string>
+    <string name="feature_qr_share">Share Playlist via QR</string>
+    <string name="feature_qr_share_desc">Share a playlist without accounts or servers.</string>
+
+    <string name="no_tracks_found">No audio tracks found. Tap scan or grant storage permission.</string>
+    <string name="grant_permission">Grant Storage Permission</string>
+    <string name="scan_library">Scan Library</string>
+    <string name="reset_to_defaults">Reset to Defaults</string>
+    <string name="close">Close</string>
+    <string name="save">Save</string>
+    <string name="cancel">Cancel</string>
+    <string name="minutes">%d min</string>
+</resources>

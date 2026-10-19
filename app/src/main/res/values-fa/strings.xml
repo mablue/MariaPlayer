@@ -1,0 +1,82 @@
+<resources>
+    <string name="app_name">ماریا پلیر</string>
+    <string name="tab_harmonic_mixing">میکس هارمونیک</string>
+    <string name="hbd_maryam_title">تولدت مبارک مریم جان! 🎂🌸</string>
+    <string name="hbd_maryam_subtitle">با آرزوی سالی پر از عشق، شادی، نوای خوش و شکوفه‌های گل مریم (۱۶ نوامبر)</string>
+    <string name="hbd_button_celebrate">جشن میلاد مریم 🎉</string>
+    <string name="flower_concept_name">موزیک پلیر گل مریم</string>
+    <string name="tab_music">موسیقی</string>
+    <string name="tab_podcasts">پادکست‌ها</string>
+    <string name="tab_audiobooks">کتاب‌های صوتی</string>
+    <string name="tab_folders">پوشه‌ها</string>
+
+    <string name="play">پخش</string>
+    <string name="pause">توقف</string>
+    <string name="skip_next">بعدی</string>
+    <string name="skip_previous">قبلی</string>
+    <string name="forward_10">۱۰ ثانیه بعد</string>
+    <string name="replay_10">۱۰ ثانیه قبل</string>
+    <string name="shuffle">پخش تصادفی</string>
+    <string name="repeat">تکرار</string>
+    <string name="playback_speed">سرعت پخش</string>
+    <string name="sleep_timer">تایمر خواب</string>
+    <string name="lyrics">متن ترانه</string>
+    <string name="car_mode">حالت خودرو</string>
+    <string name="share">اشتراک‌گذاری</string>
+    <string name="edit_tags">ویرایش برچسب‌ها</string>
+    <string name="settings">تنظیمات</string>
+    <string name="search_hint">جستجوی آهنگ، هنرمند یا پادکست…</string>
+    <string name="multi_select">انتخاب چندگانه</string>
+    <string name="create_playlist">ایجاد پلی‌لیست</string>
+    <string name="add_to_playlist">افزودن به پلی‌لیست</string>
+
+    <string name="sort_by">مرتب‌سازی بر اساس</string>
+    <string name="sort_title">عنوان</string>
+    <string name="sort_artist">هنرمند</string>
+    <string name="sort_duration">مدت زمان</string>
+    <string name="sort_date">تاریخ افزودن</string>
+    <string name="sort_size">حجم فایل</string>
+    <string name="sort_smart">رتبه‌بندی هوشمند</string>
+    <string name="sort_quality">کیفیت / بیت‌ریت</string>
+
+    <string name="smart_scoring_title">هوش الگوریتمی</string>
+    <string name="why_ranking_tooltip">علت رتبه: ترکیب تازگی، انطباق انرژی، گام کملوت و عادت‌های شنیداری</string>
+    <string name="remember_these">این‌ها را یادت هست؟</string>
+    <string name="on_this_day">در چنین روزی</string>
+    <string name="hidden_gems">جواهرات پنهان</string>
+    <string name="weekly_replay">مرور هفتگی</string>
+    <string name="mood_journal">دفترچه حالات روحی</string>
+    <string name="atmosphere_title">فضاسازی صوتی محیطی</string>
+
+    <string name="feature_loudness_norm">یکسان‌سازی حجم صدا</string>
+    <string name="feature_loudness_norm_desc">حجم صدا را در آهنگ‌ها و قسمت‌ها یکسان نگه می‌دارد.</string>
+    <string name="feature_drc">فشرده‌سازی دامنه پویا (DRC)</string>
+    <string name="feature_drc_desc">بخش‌های آرام را در محیط شلوغ شنیدنی‌تر می‌کند.</string>
+    <string name="feature_mono_guard">مونو و محافظ شنوایی</string>
+    <string name="feature_mono_guard_desc">صدای یکسان در هر دو گوش و محافظت از صداهای ناگهانی بلند.</string>
+    <string name="feature_vinyl">حالت نوستالژی گرامافون و کاست</string>
+    <string name="feature_vinyl_desc">موسیقی را با حس گرم آنالوگ پخش می‌کند.</string>
+    <string name="feature_room_reverb">طنین آکوستیک اتاق</string>
+    <string name="feature_room_reverb_desc">به موسیقی حس فضای آکوستیک طبیعی می‌دهد.</string>
+    <string name="feature_vocal_boost">وضوح کلام و تقویت آواز</string>
+    <string name="feature_vocal_boost_desc">صداها و کلام را در محیط‌های شلوغ واضح‌تر می‌کند.</string>
+    <string name="feature_sleep_fade">محو آرام پیش از خواب</string>
+    <string name="feature_sleep_fade_desc">موسیقی را تدریجاً کم می‌کند تا خوابتان نپرد.</string>
+    <string name="feature_smart_rewind">برگشت هوشمند پس از مکث</string>
+    <string name="feature_smart_rewind_desc">هنگام پخش مجدد، ۳ ثانیه عقب‌تر آغاز می‌کند تا زمینه حفظ شود.</string>
+    <string name="feature_bluetooth_autoplay">پخش خودکار با بلوتوث</string>
+    <string name="feature_bluetooth_autoplay_desc">به‌محض اتصال به دستگاه بلوتوث موثق، پخش ادامه می‌یابد.</string>
+    <string name="feature_liquid_glass">طراحی شیشه‌ای مایع</string>
+    <string name="feature_liquid_glass_desc">جلوه‌های تاری شیشه‌ای و رنگ‌های پویا متناسب با جلد آهنگ.</string>
+    <string name="feature_qr_share">اشتراک پلی‌لیست با QR کد</string>
+    <string name="feature_qr_share_desc">پلی‌لیست را بدون اکانت و سرور به اشتراک بگذارید.</string>
+
+    <string name="no_tracks_found">آهنگی یافت نشد. دکمه پویش را بزنید یا دسترسی حافظه دهید.</string>
+    <string name="grant_permission">اعطای دسترسی حافظه</string>
+    <string name="scan_library">پویش حافظه</string>
+    <string name="reset_to_defaults">بازنشانی به پیش‌فرض</string>
+    <string name="close">بستن</string>
+    <string name="save">ذخیره</string>
+    <string name="cancel">انصراف</string>
+    <string name="minutes">%d دقیقه</string>
+</resources>

@@ -1,0 +1,6 @@
+{
+  "name": "MariaPlayer",
+  "description": "MariaPlayer (موزیک پلیر گل مریم) — Elegant, high-fidelity music & podcast player with harmonic mixing, Camelot wheel flow, and DSP audio enhancements.",
+  "requestFramePermissions": [],
+  "majorCapabilities": ["MAJOR_CAPABILITY_SERVER_SIDE_GEMINI_API"]
+}
